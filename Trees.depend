@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1575202422 source:c:\users\mikki\desktop\trees\main.cpp
+	<iostream>
+	<Node.h>
+
+1574780593 source:c:\users\mikki\desktop\trees\src\node.cpp
+	"Node.h"
+	<iostream>
+
+1574774997 c:\users\mikki\desktop\trees\include\node.h
+	<string>
+	<vector>
+
