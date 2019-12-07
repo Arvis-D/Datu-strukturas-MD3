@@ -4,8 +4,49 @@
 
 using namespace std;
 
+
 int main() {
-/*
+    Node<int>tree(0);
+    tree.addNode(1);
+    tree.addNode(2);
+    tree.addNode(3);
+    tree.addNode(4);
+    tree.addNode(5, 4);
+    tree.addNode(6, 3);
+    tree.addNode(7, 6);
+    tree.addNode(8, 6);
+
+    tree.deleteNode(3);
+    tree.displayBranch();
+
+
+    if(tree.findNode(5))cout << "yeah";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
     Node root(0, "user");
     root.addNode(1, 0, "Downloads");
     root.addNode(2, 0, "Documents");

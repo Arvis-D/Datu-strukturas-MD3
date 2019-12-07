@@ -1,52 +1,49 @@
 #include "Node.h"
 #include <iostream>
 
-
-Node::Node(int idx, string namex, bool isFilex)
+template<class type>
+Node<type>::Node(type x)
 {
-    id = idx;
-    isFile = isFilex;
-    name = namex;
+    data = x;
 }
-Node::~Node()
+
+template<class type>
+Node<type>::~Node()
 {
     //dtor
 }
-bool Node::addNode(int idx, int rootIdx, string namex, bool isFilex){
 
-    if(id == rootIdx && !isFile){
-        Node *temp = new Node(idx, namex, isFilex);
-        temp->parent = this;
-        isLeaf = false;
-        children.push_back(temp);
-        return true;
-    }
-    for(int i = 0; i<children.size(); i++){
-        children[i]->addNode(idx, rootIdx, namex, isFilex);
-    }
-    return NULL;
+template <class type>
+bool Node<type>::addNode(type x){
+    Node *temp = new Node(x);
+    children.push_back(temp);
+
+    return true;
 }
-void Node::displayBranch(int branchId, string indent){
-    if(branchId == id || branchId == NULL){
-        branchId = NULL;
 
-        cout << indent << this->id << ". " << this->name
-             << "(" << (this->isFile ? "fails" : "katalogs") << ")"
+template <class type>
+void Node<type>::displayBranch(type x, string indent){
+    if(x == data || x == NULL){
+        x = NULL;
+
+        cout << indent << x
              << endl;
         if(children.size() > 0)indent += "     ";
 
         for(int i = 0; i<children.size(); i++)
-            children[i]->displayBranch(branchId, indent);
+            children[i]->displayBranch(x, indent);
     }
      else{
         for(int i = 0; i<children.size(); i++)
-            children[i]->displayBranch(branchId, indent);
+            children[i]->displayBranch(x, indent);
     }
 }
-bool Node::deleteNode(int idx){
-    if(idx == id || idx == NULL){
-        if(idx != NULL)this->parent->removeChild(idx);
-        idx = NULL;
+
+template <class type>
+bool Node<type>::deleteNode(type x){
+    if(x == data || x == NULL){
+        if(x != NULL)this->parent->removeChild(x);
+        x = NULL;
 
         for(int i = 0; i<children.size(); i++)
             children[i]->deleteNode();
@@ -54,23 +51,27 @@ bool Node::deleteNode(int idx){
     }
     else{
         for(int i = 0; i<children.size(); i++)
-            children[i]->deleteNode(idx);
+            children[i]->deleteNode(x);
     }
 }
-void Node::removeChild(int childId){
+
+template <class type>
+void Node<type>::removeChild(type x){
     for(int i = 0; i<children.size(); i++){
-        if(children[i]->id == childId){
+        if(children[i]->id == x){
             children.erase(children.begin() + i);
         }
     }
 }
 
-Node* Node::findById(int idFind){
-    for(int i = 0; i<children.size(); i++){
-        if(children[i]->id == idFind)return children[i];
-        children[i]->findById(idFind);
-    }
-    //return NULL;
+template <class type>
+Node<type>* Node<type>::findNode(type x){
+    if(this->data == x)return this;
+
+    for(int i = 0; i < children.size(); i++)
+        children[i]->findNode(x);
+
+    return NULL;
 }
 
 
