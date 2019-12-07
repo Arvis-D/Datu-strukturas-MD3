@@ -5,6 +5,7 @@
 using namespace std;
 
 int main() {
+/*
     Node root(0, "user");
     root.addNode(1, 0, "Downloads");
     root.addNode(2, 0, "Documents");
@@ -90,4 +91,5 @@ int main() {
         if (command == "$") break;
         cout << "Kludaina komanda, ludzu meginiet velreiz" << endl; // Jebkuras ievades kludas gadijuma
     }
+    */
 }
