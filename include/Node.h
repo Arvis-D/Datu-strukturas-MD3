@@ -33,7 +33,7 @@ public:
         return true;
     };
 
-    bool deleteNode(type x = NULL){
+    void deleteNode(type x = NULL){
         if(x != NULL){
             findNode(x)->deleteNode();
             return true;
@@ -52,22 +52,9 @@ public:
             cout << indent << data << endl;
             if (children.size() > 0)
                 indent += "     ";
-
-            for (int i = 0; i < children.size(); i++)
-                children[i]-> displayBranch(x, indent);
         }
-        else {
-            for (int i = 0; i < children.size(); i++)
-                children[i]->displayBranch(x, indent);
-        }
-    };
-
-    void removeChild(type x){
-        for (int i = 0; i < children.size(); i++) {
-            if (children[i]->data == x) {
-                children.erase(children.begin() + i);
-            }
-        }
+        for (int i = 0; i < children.size(); i++)
+            children[i]-> displayBranch(x, indent);
     };
 
     Node* findNode(type x){
@@ -83,6 +70,14 @@ public:
     };
 
 private:
+    void removeChild(type x){
+        for (int i = 0; i < children.size(); i++) {
+            if (children[i]->data == x) {
+                children.erase(children.begin() + i);
+            }
+        }
+    };
+
     type data;
     Node* parent = NULL;
     vector<Node*> children;
