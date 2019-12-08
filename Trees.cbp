@@ -34,9 +34,10 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/FileSys.h" />
 		<Unit filename="include/Node.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="src/Node.cpp" />
+		<Unit filename="src/FileSys.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

@@ -10,11 +10,11 @@ template <class type>
 class Node
 {
 public:
-    Node(type x){
+    Node(type* x){
         data = x;
     };
 
-    bool addNode(type x, type n = NULL){
+    Node* addNode(type* x, type* n = NULL){
         Node* temp = new Node(x);
 
         if(n != NULL){
@@ -23,55 +23,52 @@ public:
                 found->children.push_back(temp);
                 temp->parent = found;
             }
-            else return false;
+            else return NULL;
 
-            return true;
+            return temp;
         }
 
         temp->parent = this;
         children.push_back(temp);
+        return temp;
+    };
+
+    bool deleteNode(type* x = NULL){
+        if(x != NULL){
+            Node * temp = findNode(x);
+            if(temp != NULL){
+                deleteNode();
+                return true;
+            }
+            else return false;
+        }
+        for(int i = 0; i<children.size(); i++){
+            children[i]->deleteNode();
+        }
+        if(parent != NULL)parent->removeChild(data);
+        delete this;
         return true;
     };
 
-    bool deleteNode(type x = NULL){
-        if(x != NULL){
-            findNode(x)->deleteNode();
-            return true;
-        }
-        for(int i = 0; i<children.size(); i++)
-            children[i]->deleteNode();
-
-        parent->removeChild(data);
-        delete this;
-    };
-
-    void displayBranch(type x = NULL, string indent= ""){
-        if (x == data || x == NULL) {
-            x = NULL;
-
-            cout << indent << data << endl;
-            if (children.size() > 0)
-                indent += "     ";
-
-            for (int i = 0; i < children.size(); i++)
-                children[i]-> displayBranch(x, indent);
-        }
-        else {
-            for (int i = 0; i < children.size(); i++)
-                children[i]->displayBranch(x, indent);
-        }
-    };
-
-    void removeChild(type x){
-        for (int i = 0; i < children.size(); i++) {
-            if (children[i]->data == x) {
-                children.erase(children.begin() + i);
+    bool displayBranch(type* x = NULL, string indent = ""){
+        if (x != NULL) {
+            Node* temp = findNode(x);
+            if(temp != NULL){
+                temp->displayBranch();
+                return true;
             }
+            else return false;
         }
+        cout << indent << *data << endl;
+        if (children.size() > 0)
+        indent += "     ";
+        for (int i = 0; i < children.size(); i++)
+            children[i]-> displayBranch(x, indent);
+        return true;
     };
 
-    Node* findNode(type x){
-        if (this->data == x)return this;
+    Node* findNode(type* x){
+        if (*data == *x)return this;
 
         Node *temp = NULL;
         //cout << data << endl;
@@ -81,9 +78,20 @@ public:
         }
         return temp;
     };
+    type* getData(){
+        return data;
+    }
 
 private:
-    type data;
+    void removeChild(type* x){
+        for (int i = 0; i < children.size(); i++) {
+            if (children[i]->data == x) {
+                children.erase(children.begin() + i);
+            }
+        }
+    };
+
+    type* data;
     Node* parent = NULL;
     vector<Node*> children;
 };

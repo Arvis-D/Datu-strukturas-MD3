@@ -1,65 +1,32 @@
 #include <iostream>
-
-#include <Node.h>
+#include <string>
+#include "FileSys.h"
+#include "Node.h"
 
 using namespace std;
 
-
 int main() {
-    Node<int>tree(0);
-    tree.addNode(1);
-    tree.addNode(2);
-    tree.addNode(3);
-    tree.addNode(4);
-    tree.addNode(5, 4);
-    tree.addNode(6, 3);
-    tree.addNode(7, 6);
-    tree.addNode(8, 6);
+    FileSys h(0,"home");
+    FileSys a(1, "downloads");
+    FileSys b(2, "documents");
+    FileSys c(3, "gdfhfg.jpg", true);
+    FileSys d(4, "ligumi");
+    FileSys f(5, "l1.pdf", true);
+    FileSys g(6, "l2.pdf", true);
+    FileSys j(7, "pictures");
 
-    tree.deleteNode(3);
+    Node<FileSys>tree(&h);
+
+    tree.addNode(&a);
+    tree.addNode(&b);
+    tree.addNode(&j);
+
+    tree.addNode(&c, &a);
+    tree.addNode(&d, &b);
+    tree.addNode(&f, &d);
+    tree.addNode(&g, &d);
+
     tree.displayBranch();
-
-
-    if(tree.findNode(5))cout << "yeah";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*
-    Node root(0, "user");
-    root.addNode(1, 0, "Downloads");
-    root.addNode(2, 0, "Documents");
-    root.addNode(3, 0, "Pictures");
-    root.addNode(4, 0, "Music");
-    root.addNode(5, 1, "sdf823f8hdf.jpg", true);
-    root.addNode(6, 1, "keys.txt", true);
-    root.addNode(7, 2, "ligums.docx", true);
-    root.addNode(8, 2, "10.12.2019");
-    root.addNode(9, 8, "asdasd.docx", true);
-    root.addNode(10, 8, "rekins.pdf", true);
-
-    root.displayBranch();
     cout << endl << endl;
 
     string name = "";
@@ -70,6 +37,10 @@ int main() {
     string command = "";
     bool error;
     int x = 0;
+    FileSys sample(0, "");
+    FileSys sample2(0, "");
+    Node<FileSys>* n1;
+    Node<FileSys>* n2;
 
     while (command != "$") {
         error = false;
@@ -78,7 +49,7 @@ int main() {
         cin >> command;
         cout << endl;
         if (command == "*") {
-            root.displayBranch();
+            tree.displayBranch();
             cout << endl;
             continue;
         }
@@ -88,7 +59,8 @@ int main() {
                 number += command[i];
             }
             id = stoi(number);
-            root.displayBranch(id);
+            sample = *new FileSys(id, "");
+            if(tree.displayBranch(&sample))cout << "shads mezgls neeksiste!" << endl;
             cout << endl;
             continue;
         }
@@ -97,7 +69,8 @@ int main() {
                 number += command[i];
             }
             id = stoi(number);
-            root.deleteNode(id);
+            sample = *new FileSys(id, "");
+            if(!tree.deleteNode(&sample))cout << "shads mezgls neeksiste!" << endl;
             continue;
         }
         if (command[0] == '+') { //Pareizs formats ir "+x,y"
@@ -125,12 +98,25 @@ int main() {
                 }
                 number += command[i];
             }
-            if(!root.addNode(id, rootId, name, file))cout << "shads fails jau eksiste vai nav tada mezgla" << endl;
-            x = 0;
+            sample2 = *new FileSys(rootId, "");
+            sample = *new FileSys(id, name, file);
+            n1 = tree.findNode(&sample2);
+            if(n1 != NULL){
+                n2 = n1->findNode(&sample);
+                if(n2 != NULL){
+                    if(sample.isFile() == n2->getData()->isFile()){
+                        n2->deleteNode();
+                        n1->addNode(&sample);
+                    }
+                    else cout << "Fails ar shadu id un atskirigu tipu eksiste!";
+                }
+                else n1->addNode(&sample);
+            }
+            else cout << "shads mezgls neeksiste!" << endl;
             continue;
         }
         if (command == "$") break;
         cout << "Kludaina komanda, ludzu meginiet velreiz" << endl; // Jebkuras ievades kludas gadijuma
     }
-    */
+    return 0;
 }

@@ -1,13 +1,22 @@
 # depslib dependency file v1.0
-1575734683 source:c:\users\mikki\desktop\trees\main.cpp
+1575813388 source:c:\users\mikki\desktop\trees\main.cpp
 	<iostream>
-	<Node.h>
+	<string>
+	"FileSys.h"
+	"Node.h"
 
 1575729076 source:c:\users\mikki\desktop\trees\src\node.cpp
 	"Node.h"
 	<iostream>
 
-1575734630 c:\users\mikki\desktop\trees\include\node.h
+1575812946 c:\users\mikki\desktop\trees\include\node.h
 	<string>
 	<vector>
+
+1575811920 source:c:\users\mikki\desktop\trees\src\filesys.cpp
+	"FileSys.h"
+	<iostream>
+
+1575813119 c:\users\mikki\desktop\trees\include\filesys.h
+	<string>
 
