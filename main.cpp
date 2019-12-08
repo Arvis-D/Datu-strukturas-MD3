@@ -27,7 +27,11 @@ int main() {
     tree.addNode(&g, &d);
 
     tree.displayBranch();
-    cout << endl << endl;
+    cout << endl;
+    cout << "Pievienojot mezglu pareizs ievades formats ir '+id,tevaId,vards,tips'" << endl
+         << "Dzest: '-id'" << endl
+         << "Atelot: '*id' vai '*' lai attelot visu koku" << endl
+         << "iziet: $" << endl << endl;
 
     string name = "";
     int rootId = 0;
@@ -37,12 +41,17 @@ int main() {
     string command = "";
     bool error;
     int x = 0;
-    FileSys sample(0, "");
-    FileSys sample2(0, "");
-    Node<FileSys>* n1;
-    Node<FileSys>* n2;
+    FileSys* sample = new FileSys(0, "");
+    FileSys* sample2 = new FileSys(0, "");
+    Node<FileSys>* n1 = new Node<FileSys>(sample);
+    Node<FileSys>* n2 = new Node<FileSys>(sample);
 
     while (command != "$") {
+        n1 = NULL;
+        n2 = NULL;
+        //&sample = NULL;
+        //&sample2 = NULL;
+        x = 0;
         error = false;
         number = "";
         cout << "ludzu ievadiet komandu: ";
@@ -59,8 +68,8 @@ int main() {
                 number += command[i];
             }
             id = stoi(number);
-            sample = *new FileSys(id, "");
-            if(tree.displayBranch(&sample))cout << "shads mezgls neeksiste!" << endl;
+            sample = new FileSys(id, "");
+            if(!tree.displayBranch(sample))cout << "shads mezgls neeksiste!" << endl;
             cout << endl;
             continue;
         }
@@ -69,8 +78,8 @@ int main() {
                 number += command[i];
             }
             id = stoi(number);
-            sample = *new FileSys(id, "");
-            if(!tree.deleteNode(&sample))cout << "shads mezgls neeksiste!" << endl;
+            sample = new FileSys(id, "");
+            if(!tree.deleteNode(sample))cout << "shads mezgls neeksiste!" << endl;
             continue;
         }
         if (command[0] == '+') { //Pareizs formats ir "+x,y"
@@ -98,25 +107,33 @@ int main() {
                 }
                 number += command[i];
             }
-            sample2 = *new FileSys(rootId, "");
-            sample = *new FileSys(id, name, file);
-            n1 = tree.findNode(&sample2);
+            //cout << number << endl;
+            //cout << id << "  " << rootId << "  " << name << "  " << file << endl;
+            sample2 = new FileSys(rootId, "");
+            sample = new FileSys(id, name, file);
+            n1 = tree.findNode(sample2);
             if(n1 != NULL){
-                n2 = n1->findNode(&sample);
-                if(n2 != NULL){
-                    if(sample.isFile() == n2->getData()->isFile()){
-                        n2->deleteNode();
-                        n1->addNode(&sample);
-                    }
-                    else cout << "Fails ar shadu id un atskirigu tipu eksiste!";
+                if(n1->getData()->isFile()){
+                    cout << "Failam nevar but apaksmezglu!" << endl;
+                    continue;
                 }
-                else n1->addNode(&sample);
+                n2 = n1->findNode(sample);
+                cout << n2 << endl;
+                if(n2 != NULL){
+                    if(sample->isFile() == n2->getData()->isFile()){
+                        n2->deleteNode();
+                        n1->addNode(sample);
+                    }
+                    else cout << "Mezgls ar shadu id un atskirigu tipu saja kataloga jau eksiste!" << endl;
+                }
+                else n1->addNode(sample);
             }
             else cout << "shads mezgls neeksiste!" << endl;
             continue;
         }
         if (command == "$") break;
         cout << "Kludaina komanda, ludzu meginiet velreiz" << endl; // Jebkuras ievades kludas gadijuma
+        command = "";
     }
     return 0;
 }

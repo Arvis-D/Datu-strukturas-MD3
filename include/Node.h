@@ -10,10 +10,12 @@ template <class type>
 class Node
 {
 public:
-    Node(type* x){
+    Node<type>(type* x){
         data = x;
     };
-
+    ~Node(){
+        //deleteNode();
+    }
     Node* addNode(type* x, type* n = NULL){
         Node* temp = new Node(x);
 
@@ -33,11 +35,11 @@ public:
         return temp;
     };
 
-    bool deleteNode(type* x = NULL){
-        if(x != NULL){
+    bool deleteNode(type* x = NULL){ // izdzes mezglu, ja ir padots type mainigais atrod berna mezglu un zid
+            if(x != NULL){
             Node * temp = findNode(x);
             if(temp != NULL){
-                deleteNode();
+                temp->deleteNode();
                 return true;
             }
             else return false;
@@ -46,6 +48,7 @@ public:
             children[i]->deleteNode();
         }
         if(parent != NULL)parent->removeChild(data);
+        delete data;
         delete this;
         return true;
     };
