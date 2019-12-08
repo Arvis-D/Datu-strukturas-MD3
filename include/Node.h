@@ -16,8 +16,8 @@ public:
     ~Node(){
         //deleteNode();
     }
-    Node* addNode(type* x, type* n = NULL){
-        Node* temp = new Node(x);
+    Node* addNode(type* x, type* n = NULL){ // pievieno mezglu ar type datiem
+        Node* temp = new Node(x);           // ja ir padots otrais parametrs tad atrod bernu un tam pievieno mezglu
 
         if(n != NULL){
             Node * found = findNode(n);
@@ -53,9 +53,9 @@ public:
         return true;
     };
 
-    bool displayBranch(type* x = NULL, string indent = ""){
-        if (x != NULL) {
-            Node* temp = findNode(x);
+    bool displayBranch(type* x = NULL, string indent = ""){// pirmais parametrs nosaka no kura mezgla ir jasak attelot
+        if (x != NULL) {                                   // otrais parametrs ir atstarpe
+            Node* temp = findNode(x);                      // palielinoties rekursijas dzilumam
             if(temp != NULL){
                 temp->displayBranch();
                 return true;
@@ -81,12 +81,13 @@ public:
         }
         return temp;
     };
+
     type* getData(){
         return data;
     }
 
 private:
-    void removeChild(type* x){
+    void removeChild(type* x){ // starp berniem atrod mezglu un iznem to no bernu masiva
         for (int i = 0; i < children.size(); i++) {
             if (children[i]->data == x) {
                 children.erase(children.begin() + i);

@@ -27,6 +27,7 @@ int main() {
     tree.addNode(&g, &d);
 
     tree.displayBranch();
+
     cout << endl;
     cout << "Pievienojot mezglu pareizs ievades formats ir '+id,tevaId,vards,tips'" << endl
          << "Dzest: '-id'" << endl
@@ -39,20 +40,15 @@ int main() {
     int id = 0;
     string number = "";
     string command = "";
-    bool error;
     int x = 0;
     FileSys* sample = new FileSys(0, "");
     FileSys* sample2 = new FileSys(0, "");
     Node<FileSys>* n1 = new Node<FileSys>(sample);
     Node<FileSys>* n2 = new Node<FileSys>(sample);
 
+                                                        // lietotaja saskarne
     while (command != "$") {
-        n1 = NULL;
-        n2 = NULL;
-        //&sample = NULL;
-        //&sample2 = NULL;
         x = 0;
-        error = false;
         number = "";
         cout << "ludzu ievadiet komandu: ";
         cin >> command;
@@ -82,8 +78,8 @@ int main() {
             if(!tree.deleteNode(sample))cout << "shads mezgls neeksiste!" << endl;
             continue;
         }
-        if (command[0] == '+') { //Pareizs formats ir "+x,y"
-            for (int i = 1; i < command.size(); i++) { // no komandas tiek izvilkti x un y skaitli, tad pieskirti punktam b un punkta b kopija tiek ielikta rinda
+        if (command[0] == '+') {
+            for (int i = 1; i < command.size(); i++) { // no komandas tiek izvilkti parametri, tad pieskirti FileSys objektiem
                 if (command[i] == ',') {
                     if (x == 0) {
                         id = stoi(number);
@@ -107,9 +103,7 @@ int main() {
                 }
                 number += command[i];
             }
-            //cout << number << endl;
-            //cout << id << "  " << rootId << "  " << name << "  " << file << endl;
-            sample2 = new FileSys(rootId, "");
+            sample2 = new FileSys(rootId, ""); // pec si objekta tiek atrasts teva mezgls
             sample = new FileSys(id, name, file);
             n1 = tree.findNode(sample2);
             if(n1 != NULL){
@@ -118,7 +112,6 @@ int main() {
                     continue;
                 }
                 n2 = n1->findNode(sample);
-                cout << n2 << endl;
                 if(n2 != NULL){
                     if(sample->isFile() == n2->getData()->isFile()){
                         n2->deleteNode();
